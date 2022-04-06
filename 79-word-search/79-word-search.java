@@ -30,19 +30,17 @@ class Solution {
             return false;
         }
         
-        boolean result = false;
         
         board[i][j] = '#';
         
         for (int d = 0; d < 4; d++) {
-            result = backtrack(i + rowDir[d], j + colDir[d], word, index + 1);
-            
-            if (result) break;
+            if (backtrack(i + rowDir[d], j + colDir[d], word, index + 1))
+                return true;
         }
         
         board[i][j] = word.charAt(index);
         
-        return result;
+        return false;
         
     }
 }
