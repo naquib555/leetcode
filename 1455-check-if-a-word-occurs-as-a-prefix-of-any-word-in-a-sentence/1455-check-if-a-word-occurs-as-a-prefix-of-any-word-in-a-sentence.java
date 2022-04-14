@@ -5,7 +5,7 @@ class Solution {
         int result = 0;
         
         for (int i = 0; i < input.length; i++) {
-            if (input[i].length() >= searchWord.length() && input[i].startsWith(searchWord, 0)) {
+            if (input[i].startsWith(searchWord, 0)) {
                 return i + 1;
             }
         }
