@@ -21,30 +21,24 @@ class WordDictionary {
     }
     
     public boolean search(String word) {
-        return searchInNode(word, root);
+        return searchInNode(word, root, 0);
     }
     
-    public boolean searchInNode(String word, TrieNode node) {
+    public boolean searchInNode(String word, TrieNode node, int i) {
         
-        for (int i = 0; i < word.length(); i++) {
+            if (i == word.length()) return node.isEnd();
+        
             char c = word.charAt(i);
             
-            if (!node.containsKey(c)) {
-                if (c == '.') {
-                    for (int j = 0; j < node.getLinks().length; j++) {
-                        if (node.getLinks()[j] != null) {
-                            TrieNode child = node.getLinks()[j];
-                            if (searchInNode(word.substring(i + 1), child))
-                                return true;
-                        }
-                    }
+            if (c == '.') {
+                for (TrieNode child : node.getLinks()) {
+                    if (child != null && searchInNode(word, child, i + 1))
+                        return true;
                 }
                 return false;
-            } else {
-                node = node.get(c);
-            }
-        }
-        return node.isEnd();
+            } else if (node.containsKey(c))
+                return searchInNode(word, node.get(c), i + 1);
+             else return false;
     }
     
 }
@@ -67,12 +61,8 @@ class TrieNode {
         links = new TrieNode[R];
     }
     
-    public boolean isWithinLimit(char c) {
-        return c - 'a' >= 0 && c - 'a' < 26;
-    }
-    
     public boolean containsKey(char c) {
-        return isWithinLimit(c) && links[c - 'a'] != null;
+        return links[c - 'a'] != null;
     }
     
     public TrieNode get(char c) {
